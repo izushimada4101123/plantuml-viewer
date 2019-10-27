@@ -25,37 +25,59 @@ if (!document.doctype &&
 			showXhr.abort();
 
 		chrome.extension.sendRequest({ command: 'compress', data: data }, function(response) {
-			var url = [
-				response.settings.server,
-				response.settings.type,
-				response.data
-			].join('/');
+			newpages = data.match(/^[\s]*newpage.*$/mg);
 
-			switch (response.settings.type) {
-				case 'img':
-					document.body.innerHTML = ['<img id="im" src="', escapeHtml(url), '" />'].join('');
-					break;
+			console.log(newpages);
 
-				case 'svg':
-					document.body.innerHTML = ['<img id="im" src="', escapeHtml(url), '" />'].join('');
-					break;
+			newpage_num = newpages.length;
 
-				case 'txt':
-					document.body.innerHTML = '';
-					showXhr = new XMLHttpRequest();
-					showXhr.onreadystatechange = function() {
-						if (showXhr.readyState == 4 && showXhr.status != 404) {
-							document.body.innerHTML = ['<pre>' + escapeHtml(showXhr.responseText) + '</pre>'].join('');
+			console.log(newpage_num)
+			for(count=0; count <= newpage_num; count++) {
+				var url = [
+					response.settings.server,
+					response.settings.type,
+					count,
+					response.data
+				].join('/');
+
+				console.log(url);
+
+				html = '';
+
+				switch (response.settings.type) {
+					case 'img':
+						html = ['<img border="1" id="im" src="', escapeHtml(url), '" />'].join('');
+						break;
+
+					case 'svg':
+						html = ['<img border="1" id="im" src="', escapeHtml(url), '" />'].join('');
+						break;
+
+					case 'txt':
+						html = '';
+						showXhr = new XMLHttpRequest();
+						showXhr.onreadystatechange = function() {
+							if (showXhr.readyState == 4 && showXhr.status != 404) {
+								html = ['<pre>' + escapeHtml(showXhr.responseText) + '</pre>'].join('');
+							}
 						}
-					}
-					showXhr.open('GET', url);
-					showXhr.send(null);
-					break;
+						showXhr.open('GET', url);
+						showXhr.send(null);
+						break;
 
-				default:
-				case 'none':
-					document.body.innerHTML = ['<pre>' + escapeHtml(data) + '</pre>'];
-					break;
+					default:
+					case 'none':
+						html = ['<pre>' + escapeHtml(data) + '</pre>'];
+						break;
+				}
+
+				if (count==0) {
+					document.body.innerHTML = html;
+				} else {
+					document.body.innerHTML += "<br/><br/>" + html;
+				}
+				console.log(html);
+
 			}
 		});
 	}
