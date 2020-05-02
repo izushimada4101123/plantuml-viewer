@@ -13,6 +13,10 @@ http://plantuml.sourceforge.net/index.html
 - Automatically updates the diagram when the local file is changed.
 - You can use your own server by changing the server URL in the popup of the action button (action button is displayed while viewing PlantUML files).
 
+## Custom
+
+- You can reder a plantuml file include 'newpage' as multipage diagram.
+
 ## Permissions
 
 This extension does not require any permissions.
