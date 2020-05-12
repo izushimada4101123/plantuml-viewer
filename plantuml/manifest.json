@@ -1,6 +1,6 @@
 {
 	"name": "PlantUML Viewer Multipage",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"manifest_version": 2,
 	"description": "Shows graphs and diagrams rendered by PlantUML (UML, Ditaa and Dot).",
 	"icons": {
