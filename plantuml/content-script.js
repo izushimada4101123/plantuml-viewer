@@ -29,7 +29,11 @@ if (!document.doctype &&
 
 			console.log(newpages);
 
-			newpage_num = newpages.length;
+			if(newpages == null) {
+				newpage_num = 0;
+			} else {
+				newpage_num = newpages.length;
+			}
 
 			console.log(newpage_num)
 			for(count=0; count <= newpage_num; count++) {
